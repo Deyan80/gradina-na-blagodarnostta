@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>8 март — Градина на благодарността</title>
+  <style>
+    :root {
+      --bg1: #140b1a;
+      --bg2: #2a1234;
+      --bg3: #4a1f56;
+      --gold: #ffd89a;
+      --pearl: #fff8fd;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: "Segoe UI", Inter, system-ui, sans-serif;
+      color: var(--pearl);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,134,183,0.22), transparent 28%),
+        radial-gradient(circle at 80% 30%, rgba(185,152,255,0.20), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(255,216,154,0.12), transparent 25%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 45%, var(--bg3));
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.16) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.10) 1px, transparent 1px);
+      background-size: 120px 120px, 180px 180px;
+      background-position: 0 0, 40px 70px;
+      opacity: 0.28;
+    }
+
+    #customPhotoBg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-left { padding: 38px; }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,216,154,0.10);
+      border: 1px solid rgba(255,216,154,0.26);
+      color: var(--gold);
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff8fd, #ffd89a, #ff86b7, #c6b0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      margin: 24px 0 28px;
+      max-width: 700px;
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: rgba(255,248,253,0.84);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 0.98rem;
+      cursor: pointer;
+      color: var(--pearl);
+      background: rgba(255,255,255,0.07);
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.11);
+      border-color: rgba(255,255,255,0.24);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.22);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(255,134,183,0.28), rgba(185,152,255,0.24));
+      border-color: rgba(255,216,154,0.24);
+    }
+
+    .hero-right {
+      position: relative;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(6px);
+      opacity: 0.8;
+      animation: drift 12s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(255,134,183,0.45), rgba(255,134,183,0.02));
+      top: 40px; right: 70px;
+    }
+
+    .orb.two {
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(185,152,255,0.42), rgba(185,152,255,0.03));
+      bottom: 70px; left: 50px;
+      animation-duration: 15s;
+    }
+
+    .orb.three {
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(255,216,154,0.34), rgba(255,216,154,0.03));
+      top: 220px; left: 160px;
+      animation-duration: 18s;
+    }
+
+    .flower-stage {
+      position: relative;
+      width: min(520px, 90%);
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .flower-core {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #ffeec7, #ffd89a 55%, #ffb86b 100%);
+      box-shadow: 0 0 70px rgba(255,216,154,0.45);
+      z-index: 3;
+    }
+
+    .petal {
+      position: absolute;
+      width: 120px;
+      height: 190px;
+      border-radius: 60% 60% 50% 50%;
+      transform-origin: 50% 84%;
+      background: linear-gradient(180deg, rgba(255,247,252,0.95), rgba(255,134,183,0.85) 55%, rgba(163,120,255,0.85));
+      box-shadow: inset 0 8px 16px rgba(255,255,255,0.25), 0 16px 28px rgba(0,0,0,0.16);
+      opacity: 0.95;
+    }
+
+    .stem {
+      position: absolute;
+      bottom: 20px;
+      width: 12px;
+      height: 240px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #9ef0b2, #32734c);
+      box-shadow: 0 0 18px rgba(104,255,163,0.25);
+      z-index: 1;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 90px;
+      height: 42px;
+      background: linear-gradient(90deg, #74db96, #2d8f57);
+      border-radius: 0 100px 0 100px;
+      z-index: 1;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+    }
+
+    .leaf.left { bottom: 130px; right: 50%; transform: rotate(-28deg); }
+    .leaf.right { bottom: 96px; left: 50%; transform: rotate(152deg); }
+
+    .section {
+      margin-top: 26px;
+      padding: 28px;
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.5rem, 2vw, 2.4rem);
+      letter-spacing: -0.03em;
+    }
+
+    .message-box {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .quote {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: rgba(255,248,253,0.88);
+      padding: 10px 4px 4px;
+      white-space: pre-wrap;
+    }
+
+    .message-panel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      resize: vertical;
+      border: 1px solid rgba(255,255,255,0.12);
+      outline: none;
+      border-radius: 18px;
+      background: rgba(7, 6, 16, 0.28);
+      color: var(--pearl);
+      padding: 16px;
+      font: inherit;
+      line-height: 1.6;
+    }
+
+    textarea::placeholder { color: rgba(255,248,253,0.42); }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .tile {
+      position: relative;
+      min-height: 220px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      box-shadow: var(--shadow);
+    }
+
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,216,154,0.26), transparent 28%),
+        radial-gradient(circle at 78% 34%, rgba(255,134,183,0.22), transparent 22%),
+        radial-gradient(circle at 50% 72%, rgba(185,152,255,0.24), transparent 26%);
+    }
+
+    .tile-inner {
+      position: absolute;
+      inset: 0;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: linear-gradient(to top, rgba(11,10,20,0.8), rgba(11,10,20,0.06));
+    }
+
+    .tile small {
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+    }
+
+    .tile h3 { margin: 10px 0 10px; font-size: 1.28rem; }
+    .tile p { margin: 0; color: rgba(255,248,253,0.84); line-height: 1.6; font-size: 0.96rem; }
+
+    .footer {
+      margin: 34px 0 10px;
+      text-align: center;
+      color: rgba(255,248,253,0.68);
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    .signature {
+      margin-top: 12px;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .floating-note {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 5;
+      max-width: 300px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(14, 12, 25, 0.86);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: var(--shadow);
+      color: rgba(255,248,253,0.86);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      backdrop-filter: blur(12px);
+    }
+
+    .floating-note strong { color: var(--gold); }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-14px) translateX(8px) scale(1.04); }
+    }
+
+    @media (max-width: 980px) {
+      .hero, .message-box, .gallery { grid-template-columns: 1fr; }
+      .hero-right { min-height: 500px; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { width: min(100% - 20px, 1180px); }
+      .hero-left, .section { padding: 22px; }
+      .floating-note { right: 10px; left: 10px; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="customPhotoBg"></div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="card hero-left">
+        <div class="eyebrow">Честит Осми Март!</div>
+        <h1><span class="gradient-text">Градина</span><br>на благодарността</h1>
+        <p class="lead">Това е дигитална поетична сцена, посветена на 8 март — страница, която разгръща уважение, нежност, памет и признателност към жените чрез светлина, цвят, движение и лично послание.</p>
+        <div class="actions">
+          <button class="btn primary" id="bloomBtn" type="button">Разцъфни</button>
+          <button class="btn" id="messageBtn" type="button">Покажи послание</button>
+          <button class="btn" id="starsBtn" type="button">Смени атмосферата</button>
+          <button class="btn" id="uploadBtn" type="button">Качи снимка за фон</button>
+          <button class="btn" id="exportBtn" type="button">Свали JPG</button>
+          <input id="imageUpload" type="file" accept="image/*" hidden />
+        </div>
+      </div>
+
+      <div class="card hero-right">
+        <div class="orb one"></div>
+        <div class="orb two"></div>
+        <div class="orb three"></div>
+        <div class="flower-stage" id="flowerStage">
+          <div class="stem"></div>
+          <div class="leaf left"></div>
+          <div class="leaf right"></div>
+          <div class="flower-core"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2>Думи, които остават</h2>
+      <div class="message-box">
+        <div class="quote" id="quoteBox">На 8 март понякога най-важното не е големият жест, а изречената навреме благодарност — към майката, към любимата, към приятелката, към колежката, към жената, която е била сила, тишина, опора, вдъхновение или светлина в нечий живот.</div>
+        <div class="message-panel">
+          <textarea id="customText" placeholder="Напиши лично послание за 8 март..."></textarea>
+          <div class="actions" style="margin-top:12px;">
+            <button class="btn primary" id="applyTextBtn" type="button">Постави посланието</button>
+            <button class="btn" id="resetTextBtn" type="button">Възстанови</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery">
+      <article class="tile"><div class="tile-inner"><small>Смисъл</small><h3>Уважение</h3><p>Не като формалност, а като дълбоко разбиране за присъствие, труд, устойчивост и човечност.</p></div></article>
+      <article class="tile"><div class="tile-inner"><small>Светлина</small><h3>Нежност</h3><p>Не като слабост, а като фина сила, която преобразява средата и прави света по-поносим.</p></div></article>
+      <article class="tile"><div class="tile-inner"><small>Памет</small><h3>Благодарност</h3><p>Към всички жени, чието всекидневно присъствие често е тихо, но никога маловажно.</p></div></article>
+    </section>
+
+    <div class="footer">Едно посвещение към 8 март.<div class="signature">Ден на жената</div></div>
+  </div>
+
+  <div class="floating-note" id="floatingNote"><strong>8 март</strong><br>Натисни „Разцъфни“, за да оживее композицията.</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    (function () {
+      const flowerStage = document.getElementById('flowerStage');
+      const bloomBtn = document.getElementById('bloomBtn');
+      const messageBtn = document.getElementById('messageBtn');
+      const starsBtn = document.getElementById('starsBtn');
+      const uploadBtn = document.getElementById('uploadBtn');
+      const exportBtn = document.getElementById('exportBtn');
+      const imageUpload = document.getElementById('imageUpload');
+      const quoteBox = document.getElementById('quoteBox');
+      const customText = document.getElementById('customText');
+      const applyTextBtn = document.getElementById('applyTextBtn');
+      const resetTextBtn = document.getElementById('resetTextBtn');
+      const floatingNote = document.getElementById('floatingNote');
+      const customPhotoBg = document.getElementById('customPhotoBg');
+
+      const defaultQuote = quoteBox.textContent;
+      const messages = [
+        'Честит 8 март — ден за почит, внимание и истинско признание към жените, които правят живота по-смислен.',
+        'На този ден най-красивото цвете е искреното уважение, а най-ценният подарък — благодарността.',
+        'Нека 8 март бъде не просто празник, а напомняне, че силата може да бъде едновременно нежна и непоколебима.',
+        'За всички жени — с признателност към ума, сърцето, достойнството и светлината, които носят.'
+      ];
+
+      let atmosphere = 0;
+      let bloomed = false;
+      let uploadedImageData = '';
+
+      function setNote(title, text) {
+        floatingNote.innerHTML = '<strong>' + title + '</strong><br>' + text;
+      }
+
+      function setAtmosphereColors(index) {
+        if (index === 0) {
+          document.documentElement.style.setProperty('--bg1', '#140b1a');
+          document.documentElement.style.setProperty('--bg2', '#2a1234');
+          document.documentElement.style.setProperty('--bg3', '#4a1f56');
+        } else if (index === 1) {
+          document.documentElement.style.setProperty('--bg1', '#100f23');
+          document.documentElement.style.setProperty('--bg2', '#1f1f46');
+          document.documentElement.style.setProperty('--bg3', '#5a2f72');
+        } else {
+          document.documentElement.style.setProperty('--bg1', '#1c0d12');
+          document.documentElement.style.setProperty('--bg2', '#48203f');
+          document.documentElement.style.setProperty('--bg3', '#7d3451');
+        }
+      }
+
+      function refreshUploadedBackground() {
+        if (!uploadedImageData) {
+          customPhotoBg.style.backgroundImage = 'none';
+          customPhotoBg.style.opacity = '0';
+          return;
+        }
+        customPhotoBg.style.backgroundImage = 'linear-gradient(rgba(8,8,18,0.44), rgba(8,8,18,0.56)), url(' + uploadedImageData + ')';
+        customPhotoBg.style.opacity = '1';
+      }
+
+      function createPetals() {
+        flowerStage.querySelectorAll('.petal').forEach(function (petal) { petal.remove(); });
+        const core = flowerStage.querySelector('.flower-core');
+        for (let i = 0; i < 12; i += 1) {
+          const petal = document.createElement('div');
+          petal.className = 'petal';
+          const angle = i * 30;
+          const translateY = bloomed ? -98 : -28;
+          const scale = bloomed ? 1 : 0.18;
+          const delay = i * 40;
+          petal.style.transform = 'translateY(' + translateY + 'px) rotate(' + angle + 'deg) scale(' + scale + ')';
+          petal.style.opacity = bloomed ? '0.96' : '0.22';
+          petal.style.filter = bloomed ? 'blur(0px)' : 'blur(4px)';
+          petal.style.transition = 'transform 900ms cubic-bezier(.2,.8,.2,1) ' + delay + 'ms, opacity 700ms ease ' + delay + 'ms, filter 700ms ease ' + delay + 'ms';
+          flowerStage.insertBefore(petal, core);
+        }
+      }
+
+      function bloomFlower() {
+        bloomed = !bloomed;
+        createPetals();
+        bloomBtn.textContent = bloomed ? 'Прибери листенцата' : 'Разцъфни';
+        setNote('Разцвет', bloomed ? 'Цветето разцъфна.' : 'Цветето се прибра в начално състояние.');
+      }
+
+      function rotateMessage() {
+        const next = messages[Math.floor(Math.random() * messages.length)];
+        quoteBox.textContent = next;
+        setNote('Послание', 'Появи се нов текст.');
+      }
+
+      function changeAtmosphere() {
+        atmosphere = (atmosphere + 1) % 3;
+        setAtmosphereColors(atmosphere);
+        setNote('Атмосфера', 'Фонът е сменен.');
+      }
+
+      function applyCustomText() {
+        const value = customText.value.trim();
+        if (!value) {
+          setNote('Послание', 'Напиши текст, за да се покаже на картичката.');
+          return;
+        }
+        quoteBox.textContent = value;
+        setNote('Лично послание', 'Твоят текст е поставен.');
+      }
+
+      function resetText() {
+        customText.value = '';
+        quoteBox.textContent = defaultQuote;
+        setNote('Възстановено', 'Оригиналното послание е върнато.');
+      }
+
+      function handleImageUpload(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        if (!file.type || !file.type.startsWith('image/')) {
+          setNote('Файл', 'Избери изображение, за да бъде използвано като фон.');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          uploadedImageData = String(e.target.result || '');
+          refreshUploadedBackground();
+          setNote('Фон', 'Снимката е поставена като фон.');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function escapeHtml(text) {
+        return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
+      function exportPostcard() {
+        setNote('JPG', 'Подготвя се картичка...');
+        if (typeof html2canvas !== 'function') {
+          setNote('JPG', 'Библиотеката за експортиране не е заредена.');
+          return;
+        }
+
+        const palette = getComputedStyle(document.documentElement);
+        const bg1 = palette.getPropertyValue('--bg1').trim() || '#140b1a';
+        const bg2 = palette.getPropertyValue('--bg2').trim() || '#2a1234';
+        const bg3 = palette.getPropertyValue('--bg3').trim() || '#4a1f56';
+
+        const postcard = document.createElement('div');
+        postcard.style.width = '1400px';
+        postcard.style.height = '900px';
+        postcard.style.position = 'fixed';
+        postcard.style.left = '-99999px';
+        postcard.style.top = '0';
+        postcard.style.overflow = 'hidden';
+        postcard.style.borderRadius = '36px';
+        postcard.style.background = uploadedImageData
+          ? 'linear-gradient(rgba(10,10,20,0.38), rgba(10,10,20,0.52)), url(' + uploadedImageData + ') center center / contain no-repeat, linear-gradient(135deg, ' + bg1 + ', ' + bg2 + ' 45%, ' + bg3 + ')'
+          : 'radial-gradient(circle at 20% 20%, rgba(255,134,183,0.22), transparent 28%), radial-gradient(circle at 80% 30%, rgba(185,152,255,0.20), transparent 30%), radial-gradient(circle at 50% 80%, rgba(255,216,154,0.12), transparent 25%), linear-gradient(135deg, ' + bg1 + ', ' + bg2 + ' 45%, ' + bg3 + ')';
+        postcard.style.boxShadow = '0 24px 70px rgba(0,0,0,0.34)';
+        postcard.style.border = '1px solid rgba(255,255,255,0.16)';
+        postcard.style.color = '#fff8fd';
+        postcard.style.fontFamily = 'Segoe UI, Inter, system-ui, sans-serif';
+        postcard.style.padding = '54px';
+
+        let petalsHtml = '';
+        for (let i = 0; i < 12; i += 1) {
+          const angle = i * 30;
+          const translateY = bloomed ? -78 : -20;
+          const scale = bloomed ? 1 : 0.18;
+          const opacity = bloomed ? 0.96 : 0.22;
+          petalsHtml += '<div style="position:absolute;width:96px;height:152px;border-radius:60% 60% 50% 50%;transform-origin:50% 84%;background:linear-gradient(180deg, rgba(255,247,252,0.95), rgba(255,134,183,0.85) 55%, rgba(163,120,255,0.85));box-shadow:inset 0 8px 16px rgba(255,255,255,0.25), 0 16px 28px rgba(0,0,0,0.16);transform:translateY(' + translateY + 'px) rotate(' + angle + 'deg) scale(' + scale + ');opacity:' + opacity + ';"></div>';
+        }
+
+        const textMessage = escapeHtml(quoteBox.textContent).replace(/\n/g, '<br>');
+        postcard.innerHTML = '' +
+          '<div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,8,18,0.18), rgba(8,8,18,0.30));"></div>' +
+          '<div style="position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px;align-items:center;">' +
+            '<div style="padding-right:10px;">' +
+              '<div style="display:inline-block;padding:10px 18px;border-radius:999px;background:rgba(255,216,154,0.10);border:1px solid rgba(255,216,154,0.30);color:#ffd89a;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px;">Честит Осми Март!</div>' +
+              '<div style="font-size:70px;line-height:1.02;letter-spacing:-0.04em;font-weight:700;margin-bottom:24px;">' +
+                '<div style="color:#fff8fd;text-shadow:0 2px 8px rgba(0,0,0,0.35);display:block;">Градина</div>' +
+                '<div style="color:#fff8fd;text-shadow:0 2px 8px rgba(0,0,0,0.35);display:block;">на благодарността</div>' +
+              '</div>' +
+              '<div style="font-size:30px;line-height:1.7;color:rgba(255,248,253,0.94);max-width:760px;white-space:pre-wrap;">' + textMessage + '</div>' +
+            '</div>' +
+            '<div style="display:grid;place-items:center;">' +
+              '<div style="position:relative;width:420px;height:420px;display:grid;place-items:center;">' +
+                '<div style="position:absolute;bottom:24px;width:12px;height:220px;border-radius:999px;background:linear-gradient(180deg,#9ef0b2,#32734c);box-shadow:0 0 18px rgba(104,255,163,0.25);"></div>' +
+                '<div style="position:absolute;width:84px;height:38px;background:linear-gradient(90deg,#74db96,#2d8f57);border-radius:0 100px 0 100px;bottom:122px;right:50%;transform:rotate(-28deg);"></div>' +
+                '<div style="position:absolute;width:84px;height:38px;background:linear-gradient(90deg,#74db96,#2d8f57);border-radius:0 100px 0 100px;bottom:92px;left:50%;transform:rotate(152deg);"></div>' +
+                petalsHtml +
+                '<div style="position:absolute;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle at 40% 35%, #ffeec7, #ffd89a 55%, #ffb86b 100%);box-shadow:0 0 70px rgba(255,216,154,0.45);"></div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="position:absolute;left:54px;bottom:30px;color:#ffd89a;letter-spacing:0.10em;text-transform:uppercase;font-size:16px;z-index:1;">Едно посвещение за 8 март.</div>';
+
+        document.body.appendChild(postcard);
+        html2canvas(postcard, { useCORS: true, backgroundColor: null, scale: 2, logging: false, width: 1400, height: 900 })
+          .then(function (canvas) {
+            const jpgUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const link = document.createElement('a');
+            link.href = jpgUrl;
+            link.download = 'kartichka-8-mart.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            document.body.removeChild(postcard);
+            setNote('JPG', 'Свалена е картичка с име на проекта, поздрав, послание и фонова снимка.');
+          })
+          .catch(function () {
+            if (document.body.contains(postcard)) document.body.removeChild(postcard);
+            setNote('JPG', 'Неуспешно създаване на картичката.');
+          });
+      }
+
+      bloomBtn.onclick = bloomFlower;
+      messageBtn.onclick = rotateMessage;
+      starsBtn.onclick = changeAtmosphere;
+      uploadBtn.onclick = function () { imageUpload.click(); };
+      imageUpload.onchange = handleImageUpload;
+      applyTextBtn.onclick = applyCustomText;
+      resetTextBtn.onclick = resetText;
+      exportBtn.onclick = exportPostcard;
+
+      setAtmosphereColors(atmosphere);
+      refreshUploadedBackground();
+      createPetals();
+    })();
+  </script>
+</body>
+</html>
